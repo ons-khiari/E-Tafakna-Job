@@ -1,4 +1,3 @@
-const { deleteMyExperience } = require("../controllers/experience.controller");
 const logger = require("../logger/Logger");
 const prisma = require("../prisma/prismaClient");
 
