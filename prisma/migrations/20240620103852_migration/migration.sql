@@ -42,6 +42,7 @@ CREATE TABLE "Profile" (
 CREATE TABLE "ProfileRatings" (
     "id" SERIAL NOT NULL,
     "profileId" INTEGER NOT NULL,
+    "raterProfileId" INTEGER NOT NULL,
     "rating" INTEGER NOT NULL,
     "comment" TEXT NOT NULL,
 
@@ -53,7 +54,6 @@ CREATE TABLE "Skills" (
     "id" SERIAL NOT NULL,
     "profileId" INTEGER NOT NULL,
     "name" TEXT NOT NULL,
-    "projectId" INTEGER,
 
     CONSTRAINT "Skills_pkey" PRIMARY KEY ("id")
 );
@@ -116,7 +116,6 @@ CREATE TABLE "JobSkills" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "jobId" INTEGER,
-    "projectId" INTEGER,
 
     CONSTRAINT "JobSkills_pkey" PRIMARY KEY ("id")
 );
@@ -168,11 +167,17 @@ CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 -- CreateIndex
 CREATE UNIQUE INDEX "Profile_userId_key" ON "Profile"("userId");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "ProfileRatings_profileId_raterProfileId_key" ON "ProfileRatings"("profileId", "raterProfileId");
+
 -- AddForeignKey
 ALTER TABLE "Profile" ADD CONSTRAINT "Profile_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "ProfileRatings" ADD CONSTRAINT "ProfileRatings_profileId_fkey" FOREIGN KEY ("profileId") REFERENCES "Profile"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ProfileRatings" ADD CONSTRAINT "ProfileRatings_raterProfileId_fkey" FOREIGN KEY ("raterProfileId") REFERENCES "Profile"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Skills" ADD CONSTRAINT "Skills_profileId_fkey" FOREIGN KEY ("profileId") REFERENCES "Profile"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

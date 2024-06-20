@@ -40,18 +40,22 @@ model Profile {
   experience      Experience[]
   education       Education[]
   socials         Social[]
-  ratings         ProfileRatings[]
+  ratesReceived   ProfileRatings[] @relation("profile")
+  ratesGiven      ProfileRatings[] @relation("raterProfile")
   Job             Job[]
   Proposal        Proposal[]
   Project         Project[]
 }
 
 model ProfileRatings {
-  id        Int     @id @default(autoincrement())
-  profile   Profile @relation(fields: [profileId], references: [id])
-  profileId Int
-  rating    Int
-  comment   String
+  id             Int     @id @default(autoincrement())
+  profile        Profile @relation("profile", fields: [profileId], references: [id])
+  profileId      Int
+  raterProfile   Profile @relation("raterProfile", fields: [raterProfileId], references: [id])
+  raterProfileId Int
+  rating         Int
+  comment        String
+  @@unique([profileId, raterProfileId])
 }
 
 model Skills {
@@ -111,10 +115,10 @@ model Job {
 }
 
 model JobSkills {
-  id        Int    @id @default(autoincrement())
-  name      String
-  Job       Job?   @relation(fields: [jobId], references: [id])
-  jobId     Int?
+  id    Int    @id @default(autoincrement())
+  name  String
+  Job   Job?   @relation(fields: [jobId], references: [id])
+  jobId Int?
 }
 
 model Proposal {

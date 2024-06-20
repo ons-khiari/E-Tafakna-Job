@@ -5,6 +5,7 @@ const app = express();
 const authRoutes = require("./routes/auth.routes");
 const profileRoutes = require("./routes/profile.routes");
 const skillsRoutes = require("./routes/skills.routes");
+const profileRatingRoutes = require("./routes/profileRating.routes");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -12,5 +13,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/auth", authRoutes);
 app.use("/api/profile", profileRoutes);
 app.use("/api/skills", skillsRoutes);
+app.use("/api/profile-rating", profileRatingRoutes);
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
