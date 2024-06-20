@@ -1,0 +1,178 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// *******************************************************************************************************
+
+model User {
+  id       Int      @id @default(autoincrement())
+  email    String   @unique
+  password String
+  role     Role     @default(USER)
+  profile  Profile?
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model Profile {
+  id              Int              @id @default(autoincrement())
+  user            User             @relation(fields: [userId], references: [id])
+  userId          Int              @unique
+  regstrationDate DateTime         @default(now())
+  firstName       String           @default("")
+  lastName        String           @default("")
+  phoneNumber     String           @default("")
+  address         String           @default("")
+  city            String           @default("")
+  state           String           @default("")
+  country         String           @default("")
+  avatar          String           @default("")
+  bio             String           @default("")
+  skills          Skills[]
+  experience      Experience[]
+  education       Education[]
+  socials         Social[]
+  ratings         ProfileRatings[]
+  Job             Job[]
+  Proposal        Proposal[]
+  Project         Project[]
+}
+
+model ProfileRatings {
+  id        Int     @id @default(autoincrement())
+  profile   Profile @relation(fields: [profileId], references: [id])
+  profileId Int
+  rating    Int
+  comment   String
+}
+
+model Skills {
+  id        Int     @id @default(autoincrement())
+  profile   Profile @relation(fields: [profileId], references: [id])
+  profileId Int
+  name      String
+  projectId Int?
+}
+
+model Experience {
+  id          Int      @id @default(autoincrement())
+  profile     Profile  @relation(fields: [profileId], references: [id])
+  profileId   Int
+  title       String
+  company     String
+  location    String
+  startDate   DateTime
+  endDate     DateTime
+  description String
+}
+
+model Education {
+  id           Int     @id @default(autoincrement())
+  profile      Profile @relation(fields: [profileId], references: [id])
+  profileId    Int
+  school       String
+  degree       String
+  fieldOfStudy String
+  startYear    Int
+  endYear      Int
+}
+
+model Social {
+  id        Int     @id @default(autoincrement())
+  profile   Profile @relation(fields: [profileId], references: [id])
+  profileId Int
+  name      String
+  url       String
+}
+
+// *******************************************************************************************************
+
+model Job {
+  id              Int             @id @default(autoincrement())
+  title           String
+  description     String
+  budget          Float
+  location        String
+  jobType         JobType
+  experienceLevel ExperienceLevel
+  skills          JobSkills[]
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  postedBy        Profile         @relation(fields: [postedById], references: [id])
+  postedById      Int
+  proposals       Proposal[]
+}
+
+model JobSkills {
+  id        Int    @id @default(autoincrement())
+  name      String
+  Job       Job?   @relation(fields: [jobId], references: [id])
+  jobId     Int?
+  projectId Int?
+}
+
+model Proposal {
+  id          Int      @id @default(autoincrement())
+  job         Job      @relation(fields: [jobId], references: [id])
+  jobId       Int
+  profile     Profile  @relation(fields: [profileId], references: [id])
+  profileId   Int
+  coverLetter String
+  budget      Float
+  days        Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  projectId   Int?
+}
+
+enum JobType {
+  FULL_TIME
+  PART_TIME
+  CONTRACT
+  INTERNSHIP
+  REMOTE
+}
+
+enum ExperienceLevel {
+  ENTRY
+  MID
+  SENIOR
+}
+
+// *******************************************************************************************************
+
+model Project {
+  id          Int             @id @default(autoincrement())
+  title       String
+  description String
+  price       Float
+  location    String
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  soldAt      DateTime?
+  status      ProjectStatus
+  postedBy    Profile         @relation(fields: [postedById], references: [id])
+  postedById  Int
+  category    CategoryProject @relation(fields: [categoryId], references: [id])
+  categoryId  Int
+}
+
+enum ProjectStatus {
+  SOLD
+  AVAILABLE
+}
+
+model CategoryProject {
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String
+  projects    Project[]
+}
