@@ -59,7 +59,6 @@ model Skills {
   profile   Profile @relation(fields: [profileId], references: [id])
   profileId Int
   name      String
-  projectId Int?
 }
 
 model Experience {
@@ -116,7 +115,6 @@ model JobSkills {
   name      String
   Job       Job?   @relation(fields: [jobId], references: [id])
   jobId     Int?
-  projectId Int?
 }
 
 model Proposal {

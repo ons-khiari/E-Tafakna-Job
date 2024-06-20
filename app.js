@@ -4,11 +4,13 @@ const port = process.env.PORT || 5050;
 const app = express();
 const authRoutes = require("./routes/auth.routes");
 const profileRoutes = require("./routes/profile.routes");
+const skillsRoutes = require("./routes/skills.routes");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/profile", profileRoutes);
+app.use("/api/skills", skillsRoutes);
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
