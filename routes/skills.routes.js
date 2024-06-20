@@ -1,10 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const skillsController = require("../controllers/skills.controller");
-const {
-  authMiddleware,
-  adminMiddleware,
-} = require("../middlewares/auth.middleware");
+const { authMiddleware } = require("../middlewares/auth.middleware");
 
 router.post("/add", authMiddleware, skillsController.addSkill);
 router.get("/my-skills", authMiddleware, skillsController.getMySkills);
