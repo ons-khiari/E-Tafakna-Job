@@ -112,6 +112,7 @@ model Job {
   postedBy        Profile         @relation(fields: [postedById], references: [id])
   postedById      Int
   proposals       Proposal[]
+  status          Boolean         @default(true)
 }
 
 model JobSkills {

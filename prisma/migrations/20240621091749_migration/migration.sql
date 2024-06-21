@@ -107,6 +107,7 @@ CREATE TABLE "Job" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "postedById" INTEGER NOT NULL,
+    "status" BOOLEAN NOT NULL DEFAULT true,
 
     CONSTRAINT "Job_pkey" PRIMARY KEY ("id")
 );
