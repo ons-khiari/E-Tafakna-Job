@@ -13,6 +13,17 @@ class AuthController {
     }
   }
 
+  async registerAdmin(req, res) {
+    try {
+      logger.info("Controller: registerAdmin");
+      const response = await authRepository.registerAdmin(req.body);
+      return res.status(201).json(response);
+    } catch (e) {
+      logger.error("Error registering admin", e);
+      res.status(500).json({ message: "Error registering admin", error: e });
+    }
+  }
+
   async login(req, res) {
     try {
       logger.info("Controller: login");

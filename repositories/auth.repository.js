@@ -28,6 +28,27 @@ class AuthRepository {
     }
   }
 
+  async register({ email, password }) {
+    try {
+      logger.info("Repository: register");
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const user = await prisma.user.create({
+        data: {
+          email: email,
+          password: hashedPassword,
+          role: "ADMIN",
+        },
+      });
+      const profile = await this.createProfile(user, user.id);
+      const token = generateToken(user.id);
+      const refreshToken = generateRefreshToken(user.id);
+      return { token, refreshToken };
+    } catch (e) {
+      logger.error("Error registering user \n" + e.message);
+      return e;
+    }
+  }
+
   async createProfile(user, userId) {
     try {
       logger.info("Repository: createProfile");

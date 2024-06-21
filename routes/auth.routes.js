@@ -7,6 +7,12 @@ const {
 } = require("../middlewares/auth.middleware");
 
 router.post("/register", authController.register);
+router.post(
+  "/register-admin",
+  authMiddleware,
+  adminMiddleware,
+  authController.registerAdmin
+);
 router.post("/login", authController.login);
 router.get(
   "/users",
