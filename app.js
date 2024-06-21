@@ -10,6 +10,7 @@ const experienceRoutes = require("./routes/experience.routes");
 const educationRoutes = require("./routes/education.routes");
 const socialRoutes = require("./routes/social.routes");
 const jobRoutes = require("./routes/job.routes");
+const proposalRoutes = require("./routes/proposal.routes");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -22,5 +23,6 @@ app.use("/api/experience", experienceRoutes);
 app.use("/api/education", educationRoutes);
 app.use("/api/social", socialRoutes);
 app.use("/api/job", jobRoutes);
+app.use("/api/proposal", proposalRoutes);
 
 app.listen(port, () => console.log(`Listening on port ${port}`));

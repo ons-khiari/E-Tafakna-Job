@@ -2,6 +2,12 @@
 CREATE TYPE "Role" AS ENUM ('USER', 'ADMIN');
 
 -- CreateEnum
+CREATE TYPE "JobStatus" AS ENUM ('AVAILABLE', 'DONE');
+
+-- CreateEnum
+CREATE TYPE "ProposalStatus" AS ENUM ('ACCEPTED', 'DECLINED', 'PENDING');
+
+-- CreateEnum
 CREATE TYPE "JobType" AS ENUM ('FULL_TIME', 'PART_TIME', 'CONTRACT', 'INTERNSHIP', 'REMOTE');
 
 -- CreateEnum
@@ -107,7 +113,7 @@ CREATE TABLE "Job" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "postedById" INTEGER NOT NULL,
-    "status" BOOLEAN NOT NULL DEFAULT true,
+    "jobStatus" "JobStatus" NOT NULL DEFAULT 'AVAILABLE',
 
     CONSTRAINT "Job_pkey" PRIMARY KEY ("id")
 );
@@ -132,6 +138,7 @@ CREATE TABLE "Proposal" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "projectId" INTEGER,
+    "proposalStatus" "ProposalStatus" NOT NULL DEFAULT 'PENDING',
 
     CONSTRAINT "Proposal_pkey" PRIMARY KEY ("id")
 );

@@ -55,6 +55,7 @@ model ProfileRatings {
   raterProfileId Int
   rating         Int
   comment        String
+
   @@unique([profileId, raterProfileId])
 }
 
@@ -112,7 +113,12 @@ model Job {
   postedBy        Profile         @relation(fields: [postedById], references: [id])
   postedById      Int
   proposals       Proposal[]
-  status          Boolean         @default(true)
+  jobStatus       JobStatus       @default(AVAILABLE)
+}
+
+enum JobStatus {
+  AVAILABLE
+  DONE
 }
 
 model JobSkills {
@@ -123,17 +129,24 @@ model JobSkills {
 }
 
 model Proposal {
-  id          Int      @id @default(autoincrement())
-  job         Job      @relation(fields: [jobId], references: [id])
-  jobId       Int
-  profile     Profile  @relation(fields: [profileId], references: [id])
-  profileId   Int
-  coverLetter String
-  budget      Float
-  days        Int
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  projectId   Int?
+  id             Int            @id @default(autoincrement())
+  job            Job            @relation(fields: [jobId], references: [id])
+  jobId          Int
+  profile        Profile        @relation(fields: [profileId], references: [id])
+  profileId      Int
+  coverLetter    String
+  budget         Float
+  days           Int
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  projectId      Int?
+  proposalStatus ProposalStatus @default(PENDING)
+}
+
+enum ProposalStatus {
+  ACCEPTED
+  DECLINED
+  PENDING
 }
 
 enum JobType {
