@@ -7,15 +7,15 @@ const {
 } = require("../helpers/auth.helper");
 
 class AuthRepository {
-  async register({ email, password }) {
+  async registerCondidate({ email, password }) {
     try {
-      logger.info("Repository: register");
+      logger.info("Repository: register condidate");
       const hashedPassword = await bcrypt.hash(password, 10);
       const user = await prisma.user.create({
         data: {
           email: email,
           password: hashedPassword,
-          role: "USER",
+          role: "CONDIDATE",
         },
       });
       const profile = await this.createProfile(user, user.id);
@@ -23,14 +23,35 @@ class AuthRepository {
       const refreshToken = generateRefreshToken(user.id);
       return { token, refreshToken };
     } catch (e) {
-      logger.error("Error registering user \n" + e.message);
+      logger.error("Error registering condidate \n" + e.message);
       return e;
     }
   }
 
-  async register({ email, password }) {
+  async registerEmployer({ email, password }) {
     try {
-      logger.info("Repository: register");
+      logger.info("Repository: register employer");
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const user = await prisma.user.create({
+        data: {
+          email: email,
+          password: hashedPassword,
+          role: "EMPLOYER",
+        },
+      });
+      const profile = await this.createProfile(user, user.id);
+      const token = generateToken(user.id);
+      const refreshToken = generateRefreshToken(user.id);
+      return { token, refreshToken };
+    } catch (e) {
+      logger.error("Error registering employer \n" + e.message);
+      return e;
+    }
+  }
+
+  async registerAdmin({ email, password }) {
+    try {
+      logger.info("Repository: register admin");
       const hashedPassword = await bcrypt.hash(password, 10);
       const user = await prisma.user.create({
         data: {
@@ -44,7 +65,7 @@ class AuthRepository {
       const refreshToken = generateRefreshToken(user.id);
       return { token, refreshToken };
     } catch (e) {
-      logger.error("Error registering user \n" + e.message);
+      logger.error("Error registering admin \n" + e.message);
       return e;
     }
   }

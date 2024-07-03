@@ -2,14 +2,27 @@ const logger = require("../logger/Logger");
 const authRepository = require("../repositories/auth.repository");
 
 class AuthController {
-  async register(req, res) {
+  async registerCondidate(req, res) {
     try {
-      logger.info("Controller: register");
-      const response = await authRepository.register(req.body);
+      logger.info("Controller: register condidate");
+      const response = await authRepository.registerCondidate(req.body);
       return res.status(201).json(response);
     } catch (e) {
-      logger.error("Error registering user", e);
-      res.status(500).json({ message: "Error registering user", error: e });
+      logger.error("Error registering condidate", e);
+      res
+        .status(500)
+        .json({ message: "Error registering condidate", error: e });
+    }
+  }
+
+  async registerEmployer(req, res) {
+    try {
+      logger.info("Controller: register employer");
+      const response = await authRepository.registerEmployer(req.body);
+      return res.status(201).json(response);
+    } catch (e) {
+      logger.error("Error registering employer", e);
+      res.status(500).json({ message: "Error registering employer", error: e });
     }
   }
 

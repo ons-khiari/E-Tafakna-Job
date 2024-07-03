@@ -1,5 +1,5 @@
 -- CreateEnum
-CREATE TYPE "Role" AS ENUM ('USER', 'ADMIN');
+CREATE TYPE "Role" AS ENUM ('CONDIDATE', 'EMPLOYER', 'ADMIN');
 
 -- CreateEnum
 CREATE TYPE "JobStatus" AS ENUM ('AVAILABLE', 'DONE');
@@ -21,7 +21,7 @@ CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
-    "role" "Role" NOT NULL DEFAULT 'USER',
+    "role" "Role" NOT NULL DEFAULT 'CONDIDATE',
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
