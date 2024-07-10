@@ -40,13 +40,24 @@ class AuthController {
   async login(req, res) {
     try {
       logger.info("Controller: login");
-      const response = await authRepository.login(req.body);
-      return res.status(200).json(response);
+      const { email, password } = req.body;
+      const response = await authRepository.login({ email, password });
+  
+      if (response === "email invalid") {
+        return res.status(400).json({ message: "Invalid email" });
+      } else if (response === "wrong password") {
+        return res.status(400).json({ message: "Wrong password" });
+      } else if (response.token && response.refreshToken) {
+        return res.status(200).json(response);
+      } else {
+        return res.status(500).json({ message: "Unexpected error" });
+      }
     } catch (e) {
-      logger.error("Error logging in user", e);
-      res.status(500).json({ message: "Error logging in user", error: e });
+      logger.error("Error logging in user \n" + e.message);
+      res.status(500).json({ message: "Error logging in user", error: e.message });
     }
   }
+  
 
   async getAllUsers(req, res) {
     try {
@@ -56,6 +67,17 @@ class AuthController {
     } catch (e) {
       logger.error("Error getting all users", e);
       res.status(500).json({ message: "Error getting all users", error: e });
+    }
+  }
+
+  async deleteUser(req, res) {
+    try {
+      logger.info("Controller: deleteUser");
+      const response = await authRepository.deleteUser(req.params.id);
+      return res.status(200).json(response);
+    } catch (e) {
+      logger.error("Error deleting user", e);
+      res.status(500).json({ message: "Error deleting user", error: e });
     }
   }
 }

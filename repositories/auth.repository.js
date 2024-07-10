@@ -119,10 +119,30 @@ class AuthRepository {
     try {
       logger.info("Repository: getAllUsers");
       const users = await prisma.user.findMany();
-      console.log(users);
       return users;
     } catch (e) {
       logger.error("Error getting all users \n" + e.message);
+      return e;
+    }
+  }
+
+  async deleteUser(id) {
+    try {
+      logger.info("Repository: deleteUser");
+      await prisma.profile.deleteMany({
+        where: {
+          userId: parseInt(id),
+        },
+      });
+      const user = await prisma.user.delete({
+        where: {
+          id: parseInt(id),
+        },
+      });
+
+      return user;
+    } catch (e) {
+      logger.error("Error deleting user \n" + e.message);
       return e;
     }
   }

@@ -10,4 +10,17 @@ const generateRefreshToken = (id) => {
   });
 };
 
-module.exports = { generateToken, generateRefreshToken };
+const verifyToken = (token) => {
+  return jwt.verify(token, process.env.JWT_TOKEN_SECRET);
+};
+
+const verifyRefreshToken = (token) => {
+  return jwt.verify(token, process.env.JWT_REFRESH_TOKEN_SECRET);
+};
+
+module.exports = {
+  generateToken,
+  generateRefreshToken,
+  verifyToken,
+  verifyRefreshToken,
+};
