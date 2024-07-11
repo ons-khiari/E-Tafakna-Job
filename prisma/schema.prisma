@@ -7,8 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// *******************************************************************************************************
-
 model User {
   id       Int      @id @default(autoincrement())
   email    String   @unique
@@ -117,8 +115,6 @@ model Social {
   url       String
 }
 
-// *******************************************************************************************************
-
 model Job {
   id              Int             @id @default(autoincrement())
   title           String
@@ -178,8 +174,6 @@ enum ExperienceLevel {
   MID
   SENIOR
 }
-
-// *******************************************************************************************************
 
 model Project {
   id          Int             @id @default(autoincrement())
