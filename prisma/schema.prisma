@@ -38,7 +38,7 @@ model Profile {
   country         String           @default("")
   avatar          String           @default("")
   bio             String           @default("")
-  skills          Skills[]
+  skills          SkillsProfile[]
   experience      Experience[]
   education       Education[]
   socials         Social[]
@@ -47,6 +47,31 @@ model Profile {
   Job             Job[]
   Proposal        Proposal[]
   Project         Project[]
+}
+
+model Skills {
+  id       Int             @id @default(autoincrement())
+  name     String
+  profiles SkillsProfile[]
+  jobs     SkillsJob[]
+}
+
+model SkillsProfile {
+  profile   Profile @relation(fields: [profileId], references: [id])
+  profileId Int
+  skill     Skills  @relation(fields: [skillId], references: [id])
+  skillId   Int
+
+  @@id([skillId, profileId])
+}
+
+model SkillsJob {
+  Job     Job    @relation(fields: [jobId], references: [id])
+  jobId   Int
+  skill   Skills @relation(fields: [skillId], references: [id])
+  skillId Int
+
+  @@id([skillId, jobId])
 }
 
 model ProfileRatings {
@@ -59,13 +84,6 @@ model ProfileRatings {
   comment        String
 
   @@unique([profileId, raterProfileId])
-}
-
-model Skills {
-  id        Int     @id @default(autoincrement())
-  profile   Profile @relation(fields: [profileId], references: [id])
-  profileId Int
-  name      String
 }
 
 model Experience {
@@ -105,29 +123,24 @@ model Job {
   id              Int             @id @default(autoincrement())
   title           String
   description     String
-  budget          Float
+  budgetmin       Float
+  budgetmax       Float
   location        String
   jobType         JobType
   experienceLevel ExperienceLevel
-  skills          JobSkills[]
+  skills          SkillsJob[]
   createdAt       DateTime        @default(now())
   updatedAt       DateTime        @updatedAt
   postedBy        Profile         @relation(fields: [postedById], references: [id])
   postedById      Int
   proposals       Proposal[]
   jobStatus       JobStatus       @default(AVAILABLE)
+  images          String[]
 }
 
 enum JobStatus {
   AVAILABLE
   DONE
-}
-
-model JobSkills {
-  id    Int    @id @default(autoincrement())
-  name  String
-  Job   Job?   @relation(fields: [jobId], references: [id])
-  jobId Int?
 }
 
 model Proposal {
@@ -137,7 +150,8 @@ model Proposal {
   profile        Profile        @relation(fields: [profileId], references: [id])
   profileId      Int
   coverLetter    String
-  budget         Float
+  budgetmin      Float
+  budgetmax      Float
   days           Int
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
@@ -181,6 +195,7 @@ model Project {
   postedById  Int
   category    CategoryProject @relation(fields: [categoryId], references: [id])
   categoryId  Int
+  images      String[]
 }
 
 enum ProjectStatus {

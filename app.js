@@ -14,6 +14,7 @@ const jobRoutes = require("./routes/job.routes");
 const proposalRoutes = require("./routes/proposal.routes");
 const projectRoutes = require("./routes/project.routes");
 const categoryProjectRoutes = require("./routes/categoryProject.routes");
+const uploadImage = require("./helpers/uploadImage");
 
 app.use(express.json());
 app.use(cors());
@@ -30,5 +31,6 @@ app.use("/api/job", jobRoutes);
 app.use("/api/proposal", proposalRoutes);
 app.use("/api/project", projectRoutes);
 app.use("/api/category-project", categoryProjectRoutes);
+app.use("/api/image", uploadImage);
 
 app.listen(port, () => console.log(`Listening on port ${port}`));

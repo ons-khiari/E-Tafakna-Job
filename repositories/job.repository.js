@@ -9,7 +9,8 @@ class JobRepository {
         data: {
           title: data.title,
           description: data.description,
-          budget: data.budget,
+          budgetmin: data.budgetmin,
+          budgetmax: data.budgetmax,
           location: data.location,
           jobType: data.jobType,
           experienceLevel: data.experienceLevel,
@@ -139,7 +140,8 @@ class JobRepository {
         data: {
           title: data.title,
           description: data.description,
-          budget: data.budget,
+          budgetmin: data.budgetmin,
+          budgetmax: data.budgetmax,
           location: data.location,
           jobType: data.jobType,
           experienceLevel: data.experienceLevel,

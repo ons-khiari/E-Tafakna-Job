@@ -16,7 +16,8 @@ class ProposalRepository {
       const proposal = await prisma.proposal.create({
         data: {
           coverLetter: proposalData.coverLetter,
-          budget: proposalData.budget,
+          budgetmin: proposalData.budgetmin,
+          budgetmax: proposalData.budgetmax,
           days: proposalData.days,
           jobId: parseInt(jobId),
           profileId: userProfile.id,
