@@ -2,34 +2,39 @@ const logger = require("../logger/Logger");
 const prisma = require("../prisma/prismaClient");
 
 class ProposalRepository {
-  async sendProposalToJob(proposalData, userId, jobId) {
+  async sendProposalToJob(data, userId, jobId) {
     try {
       logger.info("Repository: sendProposalToJob");
+      logger.info("Data received:", data); // Log data received
+
       const userProfile = await prisma.profile.findUnique({
         where: {
           userId: userId,
         },
       });
+
       if (!userProfile) {
         throw new Error("User profile not found");
       }
+
       const proposal = await prisma.proposal.create({
         data: {
-          coverLetter: proposalData.coverLetter,
-          budgetmin: proposalData.budgetmin,
-          budgetmax: proposalData.budgetmax,
-          date: proposalData.date,
-          email: proposalData.email,
-          location: proposalData.location,
-          cvFile: proposalData.cvFile,
-          profileTitle: proposalData.profileTitle,
-          phone: proposalData.phone,
-          linkedin: proposalData.linkedin,
-          github: proposalData.github,
+          coverLetter: data.coverLetter,
+          budgetmin: data.budgetmin,
+          budgetmax: data.budgetmax,
+          date: data.date,
+          email: data.email,
+          location: data.location,
+          cvFile: data.cvFile,
+          profileTitle: data.profileTitle,
+          phone: data.phone,
+          linkedin: data.linkedin,
+          github: data.github,
           jobId: parseInt(jobId),
           profileId: userProfile.id,
         },
       });
+
       return proposal;
     } catch (error) {
       logger.error("Error sending proposal \n" + error.message);

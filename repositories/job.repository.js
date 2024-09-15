@@ -7,6 +7,7 @@ class JobRepository {
       logger.info("Repository: create");
       const job = await prisma.job.create({
         data: {
+          Company: data.Company, 
           title: data.title,
           description: data.description,
           budgetmin: data.budgetmin,
@@ -15,7 +16,8 @@ class JobRepository {
           jobType: data.jobType,
           experienceLevel: data.experienceLevel,
           postedById: userId,
-        },
+          Qualifications: data.Qualifications
+        }
       });
       return job;
     } catch (error) {
@@ -23,6 +25,7 @@ class JobRepository {
       throw new Error("Error while creating job");
     }
   }
+
 
   async getAll() {
     try {

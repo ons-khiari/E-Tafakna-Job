@@ -118,6 +118,8 @@ model Social {
 model Job {
   id              Int             @id @default(autoincrement())
   title           String
+  Company         String
+  Qualifications  String
   description     String
   budgetmin       Float
   budgetmax       Float
@@ -152,7 +154,7 @@ model Proposal {
   location       String
   cvFile         String
   profileTitle   String
-  phone          String
+  phone          Int
   linkedin       String
   github         String
   date           DateTime

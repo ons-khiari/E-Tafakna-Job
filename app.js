@@ -1,5 +1,9 @@
 const express = require("express");
 require("dotenv").config();
+const router = express.Router();
+const ProposalController = require('../E-Tafakna-backend/controllers/proposal.controller')
+const multer = require('multer');
+const path = require('path');
 const cors = require('cors');
 const port = process.env.PORT || 5050;
 const app = express();
@@ -15,6 +19,8 @@ const proposalRoutes = require("./routes/proposal.routes");
 const projectRoutes = require("./routes/project.routes");
 const categoryProjectRoutes = require("./routes/categoryProject.routes");
 const uploadImage = require("./helpers/uploadImage");
+
+
 
 app.use(express.json());
 app.use(cors());
