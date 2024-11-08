@@ -1,15 +1,38 @@
 const logger = require("../logger/Logger");
 const prisma = require("../prisma/prismaClient");
+const jwt = require("jsonwebtoken");
 
 class ProjectRepository {
-  async create(data) {
+  async create(data, token) {
     try {
-      logger.info("Repository: createProject");
-      const project = await prisma.project.create({ data });
+      const decodedToken = jwt.verify(token, process.env.JWT_TOKEN_SECRET);
+      const userId = decodedToken.id;
+      if (!userId) {
+        throw new Error("User ID not found in the token");
+      }
+      const userProfile = await prisma.profile.findUnique({
+        where: { userId },
+      });
+      if (!userProfile) {
+        throw new Error("User profile not found");
+      }
+      const { categoryId, ...projectDataWithoutCategoryId } = data;
+      const projectData = {
+        ...projectDataWithoutCategoryId,
+        postedBy: {
+          connect: { id: userProfile.id },
+        },
+        category: {
+          connect: { id: categoryId },
+        },
+      };
+      const project = await prisma.project.create({
+        data: projectData,
+      });
       return project;
     } catch (error) {
-      logger.error(error.message);
-      throw new Error(error.message);
+      logger.error("Error creating project:", error);
+      throw new Error("Error creating project: " + error.message);
     }
   }
 

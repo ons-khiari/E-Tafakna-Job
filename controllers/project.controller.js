@@ -4,8 +4,13 @@ const projectRepository = require("../repositories/project.repository");
 class ProjectController {
   async create(req, res) {
     try {
+      const BearerToken = req.headers["authorization"];
+      const token = BearerToken && BearerToken.split(" ")[1];
+      if (!token) {
+        return res.status(400).json({ error: "JWT token must be provided" });
+      }
       logger.info("Controller: createProject");
-      const project = await projectRepository.create(req.body);
+      const project = await projectRepository.create(req.body, token);
       res.status(201).json(project);
     } catch (error) {
       logger.error(error.message);
@@ -23,7 +28,7 @@ class ProjectController {
       res.status(400).json({ error: error.message });
     }
   }
-  
+
   async getAll(req, res) {
     try {
       logger.info("Controller: getAllProjects");
