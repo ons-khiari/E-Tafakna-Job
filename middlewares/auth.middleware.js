@@ -39,7 +39,7 @@ const adminMiddleware = asyncHandler(async (req, res, next) => {
       id: decoded.id,
     },
   });
-  if (user && user.role === "admin") {
+  if (user && user.role === "ADMIN") {
     next();
   } else {
     res.status(401);

@@ -146,6 +146,21 @@ class AuthRepository {
       return e;
     }
   }
+
+  async getUserById(id) {
+    try {
+      logger.info("Repository: getUserById");
+      const user = await prisma.user.findUnique({
+        where: {
+          id: parseInt(id),
+        },
+      });
+      return user;
+    } catch (e) {
+      logger.error("Error getting user by id \n" + e.message);
+      return e;
+    }
+  }
 }
 
 module.exports = new AuthRepository();

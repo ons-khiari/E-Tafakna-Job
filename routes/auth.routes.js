@@ -54,5 +54,6 @@ router.post("/verify-refresh-token", (req, res) => {
 });
 
 router.delete("/delete/:id", authController.deleteUser);
+router.get("/user/:id", authController.getUserById);
 
 module.exports = router;

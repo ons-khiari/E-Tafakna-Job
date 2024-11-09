@@ -80,6 +80,17 @@ class AuthController {
       res.status(500).json({ message: "Error deleting user", error: e });
     }
   }
+
+  async getUserById(req, res) {
+    try {
+      logger.info("Controller: getUserById");
+      const response = await authRepository.getUserById(req.params.id);
+      return res.status(200).json(response);
+    } catch (e) {
+      logger.error("Error getting user by id", e);
+      res.status(500).json({ message: "Error getting user by id", error: e });
+    }
+  }
 }
 
 module.exports = new AuthController();
