@@ -41,6 +41,30 @@ class SkillsRepository {
       throw error;
     }
   }
+
+  async getAllSkills() {
+    try {
+      logger.info("Repository: getAllSkills");
+      const skills = await prisma.skills.findMany();
+      return skills;
+    } catch (error) {
+      logger.error("Error getting skills \n" + error.message);
+      throw error;
+    }
+  }
+
+  async createSkill(skill) {
+    try {
+      logger.info("Repository: createSkill");
+      const newSkill = await prisma.skills.create({
+        data: skill,
+      });
+      return newSkill;
+    } catch (error) {
+      logger.error("Error creating skill \n" + error.message);
+      throw error;
+    }
+  }
 }
 
 module.exports = new SkillsRepository();

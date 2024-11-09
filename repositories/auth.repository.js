@@ -80,6 +80,8 @@ class AuthRepository {
               id: userId,
             },
           },
+          avatar:
+            "https://storage.googleapis.com/e-tafakna-job.appspot.com/profile-picture-avatar-icon.jpg?GoogleAccessId=firebase-adminsdk-pvq2c%40e-tafakna-job.iam.gserviceaccount.com&Expires=16447014000&Signature=RcjYUCjwy7k2KpqSS3v3A6eEHwj3Z9I0im%2BiRZ8e2Cm96vxpSH%2B7Zs5mH%2F873PJf8ANhuRanzhgJiN7m82zw69%2BMCQ6DfRjXUsRv6O7R5%2FIjychnqAPaXSNx8%2Bok1MFT8K69qPB1%2BYKdYHUqB0UVg1yJJcqk%2F2cC9sEESfeSPiLRWSu817gEvY%2FzHuF7w1rHWmcOzCvGc6hc7DmJd11%2FOR9FwgfXTM7li%2FdjJChbjtM5TX38nt%2BanDYzFXntI1CAKtYjSkcn6iMCiavqIw81LCOgfPkRn7NfXZz%2BXecTJOi%2FN%2FmNrsDdkrrRhkCa4CNpILF3OsKR882lXVGa2Pz4UQ%3D%3D",
         },
       });
       return profile;

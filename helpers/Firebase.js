@@ -1,5 +1,5 @@
 const admin = require("firebase-admin");
-const serviceAccount = require("./e-tafakna-job-firebase-adminsdk-pvq2c-0efdace0b4.json");
+const serviceAccount = require("./e-tafakna-job-firebase-adminsdk-pvq2c-c85b6e1925.json");
 
 const firebaseConfig = {
     credential: admin.credential.cert(serviceAccount),

@@ -23,6 +23,28 @@ class SkillsController {
       res.status(500).json({ message: "Internal Server Error" });
     }
   }
+
+  async getAllSkills(req, res) {
+    try {
+      logger.info("Controller: getAllSkills");
+      const skills = await skillsRepository.getAllSkills();
+      res.json(skills);
+    } catch (error) {
+      logger.error(error.message);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
+  async createSkill(req, res) {
+    try {
+      logger.info("Controller: createSkill");
+      const skill = await skillsRepository.createSkill(req.body);
+      res.json(skill);
+    } catch (error) {
+      logger.error(error.message);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
 }
 
 module.exports = new SkillsController();
