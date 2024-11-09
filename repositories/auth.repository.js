@@ -163,6 +163,29 @@ class AuthRepository {
       return e;
     }
   }
+
+  async updateUser(id, data) {
+    try {
+      logger.info("Repository: updateUser");
+      if (data.password) {
+        const hashedPassword = await bcrypt.hash(data.password, 10);
+        data.password = hashedPassword;
+      }
+      const user = await prisma.user.update({
+        where: {
+          id: parseInt(id),
+        },
+        data: {
+          ...data,
+        },
+      });
+
+      return user;
+    } catch (e) {
+      logger.error("Error updating user \n" + e.message);
+      return e;
+    }
+  }
 }
 
 module.exports = new AuthRepository();

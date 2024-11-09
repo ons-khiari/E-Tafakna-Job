@@ -91,6 +91,17 @@ class AuthController {
       res.status(500).json({ message: "Error getting user by id", error: e });
     }
   }
+
+  async updateUser(req, res) {
+    try {
+      logger.info("Controller: updateUser");
+      const response = await authRepository.updateUser(req.params.id, req.body);
+      return res.status(200).json(response);
+    } catch (e) {
+      logger.error("Error updating user", e);
+      res.status(500).json({ message: "Error updating user", error: e });
+    }
+  }
 }
 
 module.exports = new AuthController();
